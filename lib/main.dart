@@ -101,8 +101,10 @@ class _MyHomePageState extends State<MyHomePage> {
       "Portal 10",
       "Portal 11",
       "Portal 12",
+      "Portal 13",
+      "Portal 14",
     ];
-    for (int i = 0; i < names.length; i += 2) {
+    for (int i = 0; i < names.length - names.length % 2; i += 2) {
       portals.add(TwoCardWidgets(
           names[i], names[i + 1], squareCardWidth, squareCardWidth));
     }
