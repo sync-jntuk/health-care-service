@@ -86,24 +86,19 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  List<String> names = [
+    "Regular\nCheckup",
+    "Doctor",
+    "Lab Results",
+    "Consult\nSpecialist",
+    "Get Married",
+    "Get Divorce",
+    "Zandu Bam",
+    "Subscribe",
+  ];
+
   List<Widget> getPortal(double squareCardWidth) {
     List<Widget> portals = [];
-    List<String> names = [
-      "Portal 01",
-      "Portal 02",
-      "Portal 03",
-      "Portal 04",
-      "Portal 05",
-      "Portal 06",
-      "Portal 07",
-      "Portal 08",
-      "Portal 09",
-      "Portal 10",
-      "Portal 11",
-      "Portal 12",
-      "Portal 13",
-      "Portal 14",
-    ];
     for (int i = 0; i < names.length - names.length % 2; i += 2) {
       portals.add(TwoCardWidgets(
           names[i], names[i + 1], squareCardWidth, squareCardWidth));
@@ -115,7 +110,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     // double height = MediaQuery.of(context).size.height;
-    double squareCardWidth = width / 2 - 20;
+    double squareCardWidth = width / 2 - 40;
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -176,10 +171,13 @@ class ElevatedCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Card(
-        child: SizedBox(
-          width: cardWidth,
-          height: cardHeight,
-          child: Center(child: boxText),
+        child: ElevatedButton(
+          onPressed: () {},
+          child: SizedBox(
+            width: cardWidth,
+            height: cardHeight,
+            child: Center(child: boxText),
+          ),
         ),
       ),
     );
