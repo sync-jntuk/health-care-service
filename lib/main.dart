@@ -214,9 +214,7 @@ class _ElevatedCard extends State<ElevatedCard> {
 //       required this.portalName})
 //       : super(key: key);
 //   void changePortal() {
-//     // setState(() {
 //     seletedPortal = portalName;
-//     // });
 //   }
 
 //   @override
