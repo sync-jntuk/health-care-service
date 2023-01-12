@@ -4,6 +4,8 @@ void main() {
   runApp(const MyApp());
 }
 
+String seletedPortal = "None";
+
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
   @override
@@ -69,6 +71,7 @@ class _MyHomePageState extends State<MyHomePage> {
             leftText,
             style: Theme.of(context).textTheme.headline6,
           ),
+          portalName: leftText,
           cardWidth: cardWidth,
           cardHeight: cardHeight,
         ),
@@ -78,6 +81,7 @@ class _MyHomePageState extends State<MyHomePage> {
             rightText,
             style: Theme.of(context).textTheme.headline6,
           ),
+          portalName: rightText,
           cardWidth: cardHeight,
           cardHeight: cardHeight,
         ),
@@ -123,6 +127,10 @@ class _MyHomePageState extends State<MyHomePage> {
               ...getPortal(squareCardWidth),
               _buttomNavbarOptions[_selectedIndex],
               Text(
+                'Portal Name: $seletedPortal',
+                style: Theme.of(context).textTheme.headline5,
+              ),
+              Text(
                 'Count : $_counter',
                 style: Theme.of(context).textTheme.headline5,
               ),
@@ -160,25 +168,32 @@ class _MyHomePageState extends State<MyHomePage> {
 
 class ElevatedCard extends StatelessWidget {
   Text boxText;
+  String portalName;
   double cardWidth, cardHeight;
   ElevatedCard(
       {Key? key,
       required this.boxText,
       required this.cardWidth,
-      required this.cardHeight})
+      required this.cardHeight,
+      required this.portalName})
       : super(key: key);
+  void changePortal() {
+    // setState(() {
+    seletedPortal = portalName;
+    // });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Card(
         child: ElevatedButton(
-          onPressed: () {},
-          child: SizedBox(
-            width: cardWidth,
-            height: cardHeight,
-            child: Center(child: boxText),
-          ),
-        ),
+            child: SizedBox(
+              width: cardWidth,
+              height: cardHeight,
+              child: Center(child: boxText),
+            ),
+            onPressed: changePortal),
       ),
     );
   }
