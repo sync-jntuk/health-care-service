@@ -166,7 +166,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-class ElevatedCard extends StatelessWidget {
+class ElevatedCard extends StatefulWidget {
   Text boxText;
   String portalName;
   double cardWidth, cardHeight;
@@ -177,24 +177,60 @@ class ElevatedCard extends StatelessWidget {
       required this.cardHeight,
       required this.portalName})
       : super(key: key);
-  void changePortal() {
-    // setState(() {
-    seletedPortal = portalName;
-    // });
-  }
+  @override
+  _ElevatedCard createState() => _ElevatedCard();
+}
 
+class _ElevatedCard extends State<ElevatedCard> {
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Card(
         child: ElevatedButton(
             child: SizedBox(
-              width: cardWidth,
-              height: cardHeight,
-              child: Center(child: boxText),
+              width: widget.cardWidth,
+              height: widget.cardHeight,
+              child: Center(child: widget.boxText),
             ),
-            onPressed: changePortal),
+            onPressed: () {
+              setState(() {
+                seletedPortal = widget.portalName;
+              });
+            }),
       ),
     );
   }
 }
+
+// class ElevatedCard extends StatelessWidget {
+//   Text boxText;
+//   String portalName;
+//   double cardWidth, cardHeight;
+//   ElevatedCard(
+//       {Key? key,
+//       required this.boxText,
+//       required this.cardWidth,
+//       required this.cardHeight,
+//       required this.portalName})
+//       : super(key: key);
+//   void changePortal() {
+//     // setState(() {
+//     seletedPortal = portalName;
+//     // });
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Center(
+//       child: Card(
+//         child: ElevatedButton(
+//             child: SizedBox(
+//               width: cardWidth,
+//               height: cardHeight,
+//               child: Center(child: boxText),
+//             ),
+//             onPressed: changePortal),
+//       ),
+//     );
+//   }
+// }
