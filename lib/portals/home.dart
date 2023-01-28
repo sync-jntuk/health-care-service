@@ -1,6 +1,13 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 String seletedPortal = "None";
+
+void test() async {
+  var response = await http.get(Uri.parse('http://127.0.0.1:5000'));
+  seletedPortal = json.decode(response.body).toString();
+}
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
@@ -38,6 +45,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _incrementCounter() {
     setState(() {
+      test();
       _counter++;
     });
   }
