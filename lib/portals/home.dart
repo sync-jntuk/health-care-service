@@ -1,8 +1,11 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
 
 String seletedPortal = "None";
+String tt = "";
+Position? _currentPosition;
 
 void test() async {
   var response = await http.get(Uri.parse('http://127.0.0.1:5000'));
@@ -37,6 +40,46 @@ class _MyHomePageState extends State<MyHomePage> {
     ),
   ];
 
+  Future<bool> _handleLocationPermission() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text(
+              'Location services are disabled. Please enable the services')));
+      return false;
+    }
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Location permissions are denied')));
+        return false;
+      }
+    }
+    if (permission == LocationPermission.deniedForever) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text(
+              'Location permissions are permanently denied, we cannot request permissions.')));
+      return false;
+    }
+    return true;
+  }
+
+  Future<void> _getCurrentPosition() async {
+    final hasPermission = await _handleLocationPermission();
+    if (!hasPermission) return;
+    await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
+        .then((Position position) {
+      setState(() => _currentPosition = position);
+    }).catchError((e) {
+      debugPrint(e);
+    });
+  }
+
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -44,8 +87,10 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _incrementCounter() {
+    _getCurrentPosition();
     setState(() {
       test();
+      tt = _currentPosition.toString();
       _counter++;
     });
   }
@@ -85,10 +130,10 @@ class _MyHomePageState extends State<MyHomePage> {
     "Doctor",
     "Lab Results",
     "Consult\nSpecialist",
-    "Get Married",
-    "Get Divorce",
-    "Zandu Bam",
-    "Subscribe",
+    // "Regular\nCheckup",
+    // "Doctor",
+    // "Lab Results",
+    // "Consult\nSpecialist",
   ];
 
   List<Widget> getPortal(double squareCardWidth) {
@@ -122,6 +167,10 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               Text(
                 'Count : $_counter',
+                style: Theme.of(context).textTheme.headline5,
+              ),
+              Text(
+                'Location : $tt',
                 style: Theme.of(context).textTheme.headline5,
               ),
             ],
